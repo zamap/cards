@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Product Card Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Turn any messy product description into a clean, structured product card for e-commerce."
+    />
+
+    <!-- GA4 -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-XXXXXXXXXX");
+    </script>
+
+    <!-- Yandex -->
+    <script>
+      (function (m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function () {
+            (m[i].a = m[i].a || []).push(arguments);
+          };
+        m[i].l = 1 * new Date();
+        (k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]);
+        k.async = 1;
+        k.src = r;
+        a.parentNode.insertBefore(k, a);
+      })(
+        window,
+        document,
+        "script",
+        "https://mc.yandex.ru/metrika/tag.js",
+        "ym"
+      );
+      ym(XXXXXXX, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+      });
+    </script>
+
+    <style>
+      :root {
+        --bg: #020617;
+        --card: #0b1220;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --accent: #6366f1;
+        --accent2: #22d3ee;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, sans-serif;
+        background: radial-gradient(800px at 20% 10%, #1e1b4b, transparent),
+          radial-gradient(800px at 80% 20%, #164e63, transparent), var(--bg);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 80px 24px;
+      }
+      h1 {
+        font-size: 56px;
+        line-height: 1.05;
+        margin-bottom: 16px;
+      }
+      h2 {
+        font-size: 36px;
+      }
+      h3 {
+        margin-top: 0;
+      }
+      p {
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .hero {
+        text-align: center;
+        padding-top: 120px;
+      }
+      .hero span {
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .btn {
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        color: #020617;
+        border: none;
+        padding: 16px 28px;
+        border-radius: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+      }
+      .btn.small {
+        padding: 12px 18px;
+        font-size: 14px;
+        margin-top: 12px;
+      }
+
+      .card {
+        background: linear-gradient(#020617, #020617) padding-box,
+          linear-gradient(120deg, var(--accent), transparent) border-box;
+        border: 1px solid transparent;
+        border-radius: 24px;
+        padding: 24px;
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 28px;
+        margin-top: 32px;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 140px;
+        background: #020617;
+        color: var(--text);
+        border: 1px solid #1e293b;
+        border-radius: 14px;
+        padding: 14px;
+        resize: vertical;
+      }
+
+      .attrs div {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+      }
+
+      .preview strong {
+        font-size: 18px;
+      }
+      .preview p {
+        margin-top: 8px;
+      }
+
+      .niches {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin: 32px 0;
+        flex-wrap: wrap;
+      }
+
+      .niche {
+        padding: 12px 20px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.2s;
+      }
+      .niche:hover {
+        transform: translateY(-2px);
+        background: rgba(99, 102, 241, 0.15);
+      }
+      .niche.active {
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        color: #020617;
+        border: none;
+      }
+
+      .shimmer {
+        background: linear-gradient(
+          100deg,
+          rgba(255, 255, 255, 0.06) 40%,
+          rgba(255, 255, 255, 0.12) 50%,
+          rgba(255, 255, 255, 0.06) 60%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.2s infinite;
+      }
+      @keyframes shimmer {
+        to {
+          background-position: -200% 0;
+        }
+      }
+
+      footer {
+        text-align: center;
+        color: var(--muted);
+        padding: 40px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 900px) {
+        h1 {
+          font-size: 40px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="hero container">
+      <h1><span>Product card</span><br /><span>from any description</span></h1>
+      <p>
+        AI turns messy product descriptions into clean, structured product cards
+      </p>
+      <button
+        class="btn"
+        onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})"
+      >
+        Try it yourself
+      </button>
+    </section>
+
+    <section id="demo" class="container">
+      <h2 id="demoTitle">Try it yourself — Household</h2>
+
+      <div class="niches">
+        <button class="niche active" onclick="selectNiche(event,'household')">
+          🧴 Household
+        </button>
+        <button class="niche" onclick="selectNiche(event,'decor')">
+          🏺 Decor
+        </button>
+        <button class="niche" onclick="selectNiche(event,'office')">
+          🖊 Office
+        </button>
+      </div>
+
+      <div class="demo-grid">
+        <div class="card">
+          <h3>Input description</h3>
+          <textarea id="input"></textarea>
+          <button class="btn small" onclick="generate()">Generate</button>
+        </div>
+
+        <div class="card">
+          <h3>Extracted attributes</h3>
+          <div id="attrs" class="attrs shimmer"></div>
+        </div>
+
+        <div class="card">
+          <h3>Product card preview</h3>
+          <div id="preview" class="preview shimmer"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>© 2026 AI Product Card Service</footer>
+
+    <script>
+      const NICHES = {
+        household: {
+          title: "Household",
+          input:
+            "Stain remover spray G-OXI for colored fabrics, active oxygen, 600 ml",
+          attrs: [
+            ["Brand", "G-OXI"],
+            ["Category", "Household chemicals"],
+            ["Purpose", "Colored fabrics"],
+            ["Volume", "600 ml"],
+          ],
+          preview: {
+            title: "G-OXI Stain Remover Spray, 600 ml",
+            text: "Oxygen-based stain remover for colored fabrics.",
+          },
+        },
+        decor: {
+          title: "Decor",
+          input: "Glass vase Anabel, amber color, height 15.5 cm",
+          attrs: [
+            ["Material", "Glass"],
+            ["Color", "Amber"],
+            ["Height", "15.5 cm"],
+            ["Style", "Modern"],
+          ],
+          preview: {
+            title: "Anabel Glass Vase, 15.5 cm",
+            text: "Elegant amber glass vase for interior decor.",
+          },
+        },
+        office: {
+          title: "Office",
+          input:
+            "Flipchart markers BRAUBERG, set of 4 colors, non-bleeding, 2.5 mm",
+          attrs: [
+            ["Type", "Flipchart markers"],
+            ["Colors", "4"],
+            ["Tip", "Round 2.5 mm"],
+            ["Feature", "Non-bleeding"],
+          ],
+          preview: {
+            title: "BRAUBERG Flipchart Markers (4 pcs)",
+            text: "Non-bleeding markers with round tip for presentations.",
+          },
+        },
+      };
+
+      let current = "household";
+
+      function selectNiche(e, key) {
+        current = key;
+        document
+          .querySelectorAll(".niche")
+          .forEach((b) => b.classList.remove("active"));
+        e.target.classList.add("active");
+        document.getElementById(
+          "demoTitle"
+        ).innerText = `Try it yourself — ${NICHES[key].title}`;
+        document.getElementById("input").value = NICHES[key].input;
+        clearResults();
+      }
+
+      function clearResults() {
+        document.getElementById("attrs").innerHTML = "";
+        document.getElementById("preview").innerHTML = "";
+      }
+
+      function generate() {
+        clearResults();
+        const n = NICHES[current];
+        const a = document.getElementById("attrs");
+        const p = document.getElementById("preview");
+
+        n.attrs.forEach((x, i) => {
+          setTimeout(() => {
+            a.innerHTML += `<div><strong>${x[0]}</strong><span>${x[1]}</span></div>`;
+            a.classList.remove("shimmer");
+          }, 250 * i);
+        });
+
+        setTimeout(() => {
+          p.innerHTML = `<strong>${n.preview.title}</strong><p>${n.preview.text}</p>`;
+          p.classList.remove("shimmer");
+        }, 250 * n.attrs.length);
+      }
+
+      selectNiche(
+        { target: document.querySelector(".niche.active") },
+        "household"
+      );
+    </script>
+  </body>
+</html>
