@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>AI Product Card Generator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Turn any messy product description into a clean, structured product card for e-commerce."
-    />
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Product Card Generator — Turn Any Description into Sales-Ready Cards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="AI-powered tool that transforms messy product descriptions into clean, structured e-commerce cards. Boost conversions with professional product listings." />
+  <meta name="keywords" content="product card generator, AI product description, e-commerce automation, product listing tool" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="AI Product Card Generator" />
+  <meta property="og:description" content="Transform any product description into sales-ready cards in seconds." />
+  <meta property="og:type" content="website" />
+  
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 
-    <!-- GA4 -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-XXXXXXXXXX");
-    </script>
-
-    <!-- Yandex.Metrika counter -->
+  <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -37,318 +35,2403 @@
     <noscript><div><img src="https://mc.yandex.ru/watch/106259401" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
-    <style>
-      :root {
-        --bg: #020617;
-        --card: #0b1220;
-        --text: #e5e7eb;
-        --muted: #94a3b8;
-        --accent: #6366f1;
-        --accent2: #22d3ee;
-      }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        font-family: Inter, system-ui, sans-serif;
-        background: radial-gradient(800px at 20% 10%, #1e1b4b, transparent),
-          radial-gradient(800px at 80% 20%, #164e63, transparent), var(--bg);
-        color: var(--text);
-      }
+  <style>
+    /* === CSS Variables === */
+    :root {
+      --bg: #030712;
+      --bg-secondary: #0f172a;
+      --card: #1e293b;
+      --card-border: rgba(99, 102, 241, 0.2);
+      --text: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #6366f1;
+      --accent-light: #818cf8;
+      --accent2: #22d3ee;
+      --success: #10b981;
+      --gradient: linear-gradient(135deg, var(--accent), var(--accent2));
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      --radius: 16px;
+      --radius-sm: 8px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* === Light Theme === */
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-secondary: #e2e8f0;
+      --card: #ffffff;
+      --card-border: rgba(15, 23, 42, 0.12);
+      --text: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+    }
 
-      .container {
-        max-width: 1200px;
-        margin: auto;
-        padding: 80px 24px;
-      }
-      h1 {
-        font-size: 56px;
-        line-height: 1.05;
-        margin-bottom: 16px;
-      }
-      h2 {
-        font-size: 36px;
-      }
-      h3 {
-        margin-top: 0;
-      }
-      p {
-        color: var(--muted);
-        font-size: 18px;
-      }
+    /* === Reset & Base === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
 
-      .hero {
+    /* === Layout === */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === Typography === */
+    h1, h2, h3, h4 { font-weight: 700; line-height: 1.2; }
+    h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+    h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 16px; }
+    h3 { font-size: 1.25rem; margin-bottom: 8px; }
+    p { color: var(--text-secondary); }
+    .gradient-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* === Buttons === */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      transition: var(--transition);
+    }
+    .btn-primary {
+      background: var(--gradient);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--card-border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.1);
+    }
+    .btn-full { width: 100%; justify-content: center; }
+    .btn-nav { padding: 10px 20px; font-size: 0.875rem; }
+
+    /* === Navigation === */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      background: rgba(3, 7, 18, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+    }
+    [data-theme="light"] .navbar {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    .logo-icon { font-size: 1.75rem; }
+    .logo-ai { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    .nav-links a:hover { color: var(--text); }
+    
+    /* === Nav Controls === */
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    /* === Theme Switcher === */
+    .theme-switcher {
+      display: flex;
+    }
+    .theme-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: var(--bg-secondary);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 0;
+    }
+    .theme-btn:hover {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.1);
+    }
+    .moon-icon {
+      display: none;
+    }
+    [data-theme="light"] .sun-icon {
+      display: none;
+    }
+    [data-theme="light"] .moon-icon {
+      display: block;
+    }
+    
+    /* === Language Switcher === */
+    .lang-switcher {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-secondary);
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+    .lang-btn {
+      padding: 6px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .lang-btn:hover {
+      color: var(--text);
+    }
+    .lang-btn.active {
+      background: var(--gradient);
+      color: var(--bg);
+    }
+    
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: 8px;
+    }
+    .mobile-menu span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      transition: var(--transition);
+    }
+    .mobile-menu.open span:nth-child(1) {
+      transform: rotate(45deg) translateY(7px);
+    }
+    .mobile-menu.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-menu.open span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-7px);
+    }
+
+    /* === Hero Section === */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 140px 0 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero .container { position: relative; z-index: 1; }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(800px circle at 30% 20%, rgba(99, 102, 241, 0.15), transparent 50%),
+        radial-gradient(600px circle at 70% 60%, rgba(34, 211, 238, 0.1), transparent 50%);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      margin-bottom: 24px;
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .hero-subtitle {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 24px auto 40px;
+    }
+    .hero-form {
+      max-width: 500px;
+      margin: 0 auto 48px;
+    }
+    .hero-form .form-group {
+      display: flex;
+      gap: 12px;
+      background: var(--bg-secondary);
+      padding: 8px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+    }
+    .hero-form input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+    }
+    .hero-form input::placeholder { color: var(--text-muted); }
+    .form-note {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat strong {
+      display: block;
+      font-size: 2rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat span { font-size: 0.875rem; color: var(--text-muted); }
+    .stat-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* === Section Styles === */
+    section { padding: 100px 0; }
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+    .section-tag {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--accent-light);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .section-header p {
+      font-size: 1.125rem;
+      margin-top: 16px;
+    }
+
+    /* === Features === */
+    .features { background: var(--bg); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: linear-gradient(135deg, var(--bg-secondary), var(--bg));
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: var(--transition);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 { color: var(--text); margin-bottom: 12px; }
+    .feature-card p { font-size: 0.95rem; }
+
+    /* === Steps === */
+    .steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 280px;
+    }
+    .step-number {
+      width: 64px;
+      height: 64px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--bg);
+      margin-bottom: 20px;
+    }
+    .step-content h3 { color: var(--text); }
+    .step-line {
+      width: 80px;
+      height: 2px;
+      background: var(--card-border);
+    }
+
+    /* === Demo Section === */
+    .demo-section { background: var(--bg); }
+    .niches {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .niche {
+      padding: 12px 24px;
+      border-radius: 100px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-secondary);
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .niche:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .niche.active {
+      background: var(--gradient);
+      color: var(--bg);
+      border-color: transparent;
+    }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .card-icon { font-size: 1.5rem; }
+    .card-header h3 { margin: 0; }
+    .card textarea {
+      width: 100%;
+      min-height: 120px;
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      color: var(--text);
+      font-size: 0.95rem;
+      resize: vertical;
+      margin-bottom: 16px;
+    }
+    .card textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .attrs, .preview { min-height: 150px; }
+    .attrs-placeholder, .preview-placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    
+    /* JSON Output Styles */
+    .json-output {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin: 0;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .json-output code {
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      white-space: pre;
+    }
+    .json-key { color: #818cf8; }
+    .json-string { color: #34d399; }
+    .json-number { color: #fbbf24; }
+    .json-boolean { color: #f472b6; }
+    .json-null { color: #94a3b8; }
+    
+    /* Product Card Preview Styles */
+    .product-card-preview {
+      background: linear-gradient(135deg, var(--bg), rgba(99, 102, 241, 0.1));
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card-preview::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient);
+    }
+    .card-category {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--accent-light);
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .card-title {
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 16px 0;
+      line-height: 1.3;
+    }
+    .card-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .spec-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-sm);
+    }
+    .spec-icon {
+      font-size: 1rem;
+      width: 24px;
+      text-align: center;
+    }
+    .spec-label {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      min-width: 80px;
+    }
+    .spec-value {
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-left: auto;
+    }
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .btn-loading { display: none; }
+    .btn.loading .btn-text { display: none; }
+    .btn.loading .btn-loading { display: inline; }
+    .demo-cta {
+      text-align: center;
+      margin-top: 48px;
+      padding: 32px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(34, 211, 238, 0.05));
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+    }
+    .demo-cta p {
+      font-size: 1.125rem;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    /* === Pricing === */
+    .pricing { background: var(--bg-secondary); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .pricing-card {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 32px;
+      position: relative;
+      transition: var(--transition);
+    }
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .pricing-card.popular {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), var(--bg));
+    }
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient);
+      color: var(--bg);
+      padding: 6px 20px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .pricing-header {
+      text-align: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
+    }
+    .pricing-header h3 { font-size: 1.5rem; color: var(--text); }
+    .price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 8px 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 4px;
+    }
+    .price-value {
+      font-size: 2.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .currency { font-size: 1.5rem; vertical-align: top; }
+    .period { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+    .pricing-header p { margin: 0; }
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      color: var(--text-secondary);
+    }
+    .pricing-features .check { color: var(--success); font-weight: bold; }
+    .pricing-features .x { color: var(--text-muted); }
+    .pricing-features li.disabled { opacity: 0.5; }
+
+    /* === Trusted Companies === */
+    .trusted-companies { background: var(--bg-secondary); overflow: hidden; }
+    .company-logos {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 20px 0;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+    }
+    .company-logos::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+    .company-logo {
+      color: var(--text-muted);
+      opacity: 0.6;
+      transition: var(--transition);
+      min-width: 160px;
+      width: 160px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      flex-shrink: 0;
+    }
+    .company-logo:hover {
+      opacity: 1;
+      color: var(--accent-light);
+    }
+    .company-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* === Testimonials === */
+    .testimonials { background: var(--bg); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .testimonial-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+    .testimonial-stars {
+      color: #fbbf24;
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+    .testimonial-card > p {
+      font-size: 0.95rem;
+      color: var(--text);
+      font-style: italic;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+    .avatar svg {
+      width: 100%;
+      height: 100%;
+    }
+    .author-info strong { display: block; color: var(--text); font-size: 0.95rem; }
+    .author-info span { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* === Demo Divider === */
+    .demo-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--card-border);
+      margin: 48px 0;
+    }
+
+    /* === Pricing Forms === */
+    .pricing-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .pricing-form input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition);
+    }
+    .pricing-form input:focus {
+      border-color: var(--accent);
+    }
+    .pricing-form input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* === Final CTA === */
+    .final-cta {
+      background: linear-gradient(135deg, var(--bg-secondary), var(--bg));
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(600px circle at 30% 50%, rgba(99, 102, 241, 0.15), transparent 50%),
+        radial-gradient(400px circle at 70% 50%, rgba(34, 211, 238, 0.1), transparent 50%);
+    }
+    .cta-content {
+      position: relative;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .cta-content h2 { margin-bottom: 16px; }
+    .cta-content > p {
+      font-size: 1.125rem;
+      margin-bottom: 32px;
+    }
+    .cta-form {
+      max-width: 450px;
+      margin: 0 auto 24px;
+    }
+    .cta-form .form-group {
+      display: flex;
+      gap: 12px;
+      background: var(--bg);
+      padding: 8px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+    }
+    .cta-form input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+    }
+    .cta-features {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* === Footer === */
+    .footer {
+      background: var(--bg);
+      padding: 32px 0;
+      border-top: 1px solid var(--card-border);
+    }
+    .footer-minimal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+    .footer-links-inline {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .footer-links-inline a {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .footer-links-inline a:hover {
+      color: var(--text);
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    /* === Animations === */
+    [data-aos] {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    [data-aos].aos-animate {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .btn-nav { display: none; }
+      .mobile-menu { display: flex; }
+      
+      /* Smaller controls on mobile */
+      .nav-controls {
+        gap: 8px;
+      }
+      .theme-btn {
+        width: 36px;
+        height: 36px;
+      }
+      .theme-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+      .lang-switcher {
+        padding: 3px;
+      }
+      .lang-btn {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+      }
+      .hero { padding-top: 100px; }
+      .hero-form .form-group {
+        flex-direction: column;
+      }
+      .hero-form .btn { width: 100%; justify-content: center; }
+      .hero-stats { gap: 24px; }
+      .stat-divider { display: none; }
+      .steps { flex-direction: column; }
+      .step-line {
+        width: 2px;
+        height: 40px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      .footer-brand { grid-column: span 2; }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 16px;
         text-align: center;
-        padding-top: 120px;
       }
-      .hero span {
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .btn {
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        color: #020617;
-        border: none;
-        padding: 16px 28px;
-        border-radius: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.2s;
-      }
-      .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
-      }
-      .btn.small {
-        padding: 12px 18px;
-        font-size: 14px;
-        margin-top: 12px;
-      }
-
-      .card {
-        background: linear-gradient(#020617, #020617) padding-box,
-          linear-gradient(120deg, var(--accent), transparent) border-box;
-        border: 1px solid transparent;
-        border-radius: 24px;
-        padding: 24px;
-      }
-
-      .demo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 28px;
-        margin-top: 32px;
-      }
-
-      textarea {
-        width: 100%;
-        min-height: 140px;
-        background: #020617;
-        color: var(--text);
-        border: 1px solid #1e293b;
-        border-radius: 14px;
-        padding: 14px;
-        resize: vertical;
-      }
-
-      .attrs div {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-      }
-
-      .preview strong {
-        font-size: 18px;
-      }
-      .preview p {
-        margin-top: 8px;
-      }
-
-      .niches {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-        margin: 32px 0;
-        flex-wrap: wrap;
-      }
-
-      .niche {
-        padding: 12px 20px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        background: rgba(255, 255, 255, 0.04);
-        color: var(--text);
-        cursor: pointer;
-        font-weight: 600;
-        transition: 0.2s;
-      }
-      .niche:hover {
-        transform: translateY(-2px);
-        background: rgba(99, 102, 241, 0.15);
-      }
-      .niche.active {
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        color: #020617;
-        border: none;
-      }
-
-      .shimmer {
-        background: linear-gradient(
-          100deg,
-          rgba(255, 255, 255, 0.06) 40%,
-          rgba(255, 255, 255, 0.12) 50%,
-          rgba(255, 255, 255, 0.06) 60%
-        );
-        background-size: 200% 100%;
-        animation: shimmer 1.2s infinite;
-      }
-      @keyframes shimmer {
-        to {
-          background-position: -200% 0;
-        }
-      }
-
-      footer {
-        text-align: center;
-        color: var(--muted);
-        padding: 40px;
-        font-size: 14px;
-      }
-
-      @media (max-width: 900px) {
-        h1 {
-          font-size: 40px;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <section class="hero container">
-      <h1><span>Product card</span><br /><span>from any description</span></h1>
-      <p>
-        AI turns messy product descriptions into clean, structured product cards
-      </p>
-      <button
-        class="btn"
-        onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})"
-      >
-        Try it yourself
+    }
+    @media (max-width: 600px) {
+      section { padding: 60px 0; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-brand { grid-column: span 1; }
+      .cta-form .form-group { flex-direction: column; }
+      .cta-form .btn { width: 100%; justify-content: center; }
+      .cta-features { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <span class="logo-icon">✨</span>
+        <span>CardGen<span class="logo-ai">AI</span></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#features" data-track="nav_features" data-i18n="nav.features">Features</a>
+        <a href="#demo" data-track="nav_demo" data-i18n="nav.demo">Demo</a>
+        <a href="#pricing" data-track="nav_pricing" data-i18n="nav.pricing">Pricing</a>
+        <a href="#trusted" data-track="nav_trusted" data-i18n="nav.customers">Customers</a>
+      </div>
+      <div class="nav-controls">
+        <div class="theme-switcher">
+          <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="lang-switcher">
+          <button class="lang-btn active" onclick="setLanguage('en')" data-lang="en">EN</button>
+          <button class="lang-btn" onclick="setLanguage('ru')" data-lang="ru">RU</button>
+        </div>
+      </div>
+      <button class="btn btn-nav" data-track="nav_cta" onclick="scrollToElement('signup')" data-i18n="nav.cta">Get Started Free</button>
+      <button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
       </button>
-    </section>
+    </div>
+  </nav>
 
-    <section id="demo" class="container">
-      <h2 id="demoTitle">Try it yourself — Household</h2>
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-badge" data-aos="fade-up">
+        <span class="badge-dot"></span>
+        <span data-i18n="hero.badge">Trusted by 2,500+ e-commerce sellers</span>
+      </div>
+      <h1 data-aos="fade-up" data-aos-delay="100">
+        <span data-i18n="hero.title1">Transform</span> <span class="gradient-text" data-i18n="hero.title2">Product Descriptions</span><br>
+        <span data-i18n="hero.title3">Into Sales-Ready Cards</span>
+      </h1>
+      <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200" data-i18n="hero.subtitle">
+        AI-powered tool that extracts key attributes, generates compelling copy,<br>
+        and creates professional product cards in seconds — not hours.
+      </p>
+      
+      <form class="hero-form" id="heroForm" data-aos="fade-up" data-aos-delay="300">
+        <div class="form-group">
+          <input type="email" id="heroEmail" data-i18n-placeholder="hero.email_placeholder" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary" data-track="hero_cta" data-i18n="hero.cta">
+            Start Free Trial
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+        <p class="form-note" data-i18n="hero.form_note">✓ No credit card required &nbsp; ✓ 50 free cards/month</p>
+      </form>
+
+      <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+        <div class="stat">
+          <strong>10M+</strong>
+          <span data-i18n="hero.stat1">Cards Generated</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <strong>95%</strong>
+          <span data-i18n="hero.stat2">Time Saved</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <strong>4.9/5</strong>
+          <span data-i18n="hero.stat3">User Rating</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bg"></div>
+  </section>
+
+  <!-- How It Works + Live Demo -->
+  <section class="demo-section" id="demo">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="demo.tag">How It Works</span>
+        <h2><span data-i18n="demo.title1">From Chaos to</span> <span class="gradient-text" data-i18n="demo.title2">Clarity</span> <span data-i18n="demo.title3">in 3 Steps</span></h2>
+        <p data-i18n="demo.subtitle">No technical skills required — just paste and go. Try it yourself below!</p>
+      </div>
+
+      <div class="steps">
+        <div class="step" data-aos="fade-right">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3 data-i18n="demo.step1_title">Paste Your Description</h3>
+            <p data-i18n="demo.step1_desc">Copy any messy product text from suppliers or manufacturers.</p>
+          </div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" data-aos="fade-up">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3 data-i18n="demo.step2_title">AI Processes</h3>
+            <p data-i18n="demo.step2_desc">Our AI extracts attributes and generates optimized content.</p>
+          </div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" data-aos="fade-left">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3 data-i18n="demo.step3_title">Export & Publish</h3>
+            <p data-i18n="demo.step3_desc">Download your polished product card or push to your store.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-divider"></div>
 
       <div class="niches">
-        <button class="niche active" onclick="selectNiche(event,'household')">
-          🧴 Household
-        </button>
-        <button class="niche" onclick="selectNiche(event,'decor')">
-          🏺 Decor
-        </button>
-        <button class="niche" onclick="selectNiche(event,'office')">
-          🖊 Office
-        </button>
+        <button class="niche active" onclick="selectNiche(event,'household')" data-track="demo_niche_household" data-i18n="demo.niche_household">🧴 Household</button>
+        <button class="niche" onclick="selectNiche(event,'decor')" data-track="demo_niche_decor" data-i18n="demo.niche_decor">🏺 Decor</button>
+        <button class="niche" onclick="selectNiche(event,'office')" data-track="demo_niche_office" data-i18n="demo.niche_office">🖊 Office</button>
+        <button class="niche" onclick="selectNiche(event,'electronics')" data-track="demo_niche_electronics" data-i18n="demo.niche_electronics">📱 Electronics</button>
       </div>
 
       <div class="demo-grid">
         <div class="card">
-          <h3>Input description</h3>
-          <textarea id="input"></textarea>
-          <button class="btn small" onclick="generate()">Generate</button>
+          <div class="card-header">
+            <span class="card-icon">📝</span>
+            <h3 data-i18n="demo.input_title">Input Description</h3>
+          </div>
+          <textarea id="input" data-i18n-placeholder="demo.input_placeholder" placeholder="Paste any product description here..."></textarea>
+          <button class="btn btn-primary btn-full" onclick="generate()" data-track="demo_generate">
+            <span class="btn-text" data-i18n="demo.generate_btn">Generate Product Card</span>
+            <span class="btn-loading" data-i18n="demo.processing">Processing...</span>
+          </button>
         </div>
 
         <div class="card">
-          <h3>Extracted attributes</h3>
-          <div id="attrs" class="attrs shimmer"></div>
+          <div class="card-header">
+            <span class="card-icon">🏷️</span>
+            <h3 data-i18n="demo.attrs_title">Extracted Attributes</h3>
+          </div>
+          <div id="attrs" class="attrs">
+            <div class="attrs-placeholder" data-i18n="demo.attrs_placeholder">Attributes will appear here</div>
+          </div>
         </div>
 
         <div class="card">
-          <h3>Product card preview</h3>
-          <div id="preview" class="preview shimmer"></div>
+          <div class="card-header">
+            <span class="card-icon">✨</span>
+            <h3 data-i18n="demo.preview_title">Product Card Preview</h3>
+          </div>
+          <div id="preview" class="preview">
+            <div class="preview-placeholder" data-i18n="demo.preview_placeholder">Your generated card will appear here</div>
+          </div>
         </div>
       </div>
-    </section>
 
-    <footer>© 2026 AI Product Card Service</footer>
+      <div class="demo-cta" data-aos="fade-up">
+        <p data-i18n="demo.cta_text">Like what you see? Get <strong>50 free cards</strong> when you sign up today.</p>
+        <button class="btn btn-primary" onclick="scrollToElement('signup')" data-track="demo_cta" data-i18n="demo.cta_btn">Start Free Trial</button>
+      </div>
+    </div>
 
-    <script>
-      const NICHES = {
-        household: {
-          title: "Household",
-          input:
-            "Stain remover spray G-OXI for colored fabrics, active oxygen, 600 ml",
-          attrs: [
-            ["Brand", "G-OXI"],
-            ["Category", "Household chemicals"],
-            ["Purpose", "Colored fabrics"],
-            ["Volume", "600 ml"],
-          ],
-          preview: {
-            title: "G-OXI Stain Remover Spray, 600 ml",
-            text: "Oxygen-based stain remover for colored fabrics.",
-          },
-        },
-        decor: {
-          title: "Decor",
-          input: "Glass vase Anabel, amber color, height 15.5 cm",
-          attrs: [
-            ["Material", "Glass"],
-            ["Color", "Amber"],
-            ["Height", "15.5 cm"],
-            ["Style", "Modern"],
-          ],
-          preview: {
-            title: "Anabel Glass Vase, 15.5 cm",
-            text: "Elegant amber glass vase for interior decor.",
-          },
-        },
-        office: {
-          title: "Office",
-          input:
-            "Flipchart markers BRAUBERG, set of 4 colors, non-bleeding, 2.5 mm",
-          attrs: [
-            ["Type", "Flipchart markers"],
-            ["Colors", "4"],
-            ["Tip", "Round 2.5 mm"],
-            ["Feature", "Non-bleeding"],
-          ],
-          preview: {
-            title: "BRAUBERG Flipchart Markers (4 pcs)",
-            text: "Non-bleeding markers with round tip for presentations.",
-          },
-        },
-      };
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="features.tag">Features</span>
+        <h2><span data-i18n="features.title1">Everything You Need to</span> <span class="gradient-text" data-i18n="features.title2">Scale</span></h2>
+        <p data-i18n="features.subtitle">Powerful AI tools designed for both individual sellers and enterprise teams</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card" data-aos="fade-up">
+          <div class="feature-icon">🧠</div>
+          <h3 data-i18n="features.f1_title">Smart Attribute Extraction</h3>
+          <p data-i18n="features.f1_desc">AI automatically identifies and extracts brand, size, color, material, and 50+ other attributes from any text.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="feature-icon">✍️</div>
+          <h3 data-i18n="features.f2_title">SEO-Optimized Copy</h3>
+          <p data-i18n="features.f2_desc">Generate compelling product titles and descriptions that rank higher and convert better.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="feature-icon">🌍</div>
+          <h3 data-i18n="features.f3_title">Multi-Language Support</h3>
+          <p data-i18n="features.f3_desc">Process descriptions in 25+ languages and translate output for global marketplaces.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="feature-icon">📊</div>
+          <h3 data-i18n="features.f4_title">Bulk Processing</h3>
+          <p data-i18n="features.f4_desc">Upload CSV files with thousands of products and process them all in minutes, not days.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="feature-icon">🔌</div>
+          <h3 data-i18n="features.f5_title">API Integration</h3>
+          <p data-i18n="features.f5_desc">Connect directly to your e-commerce platform with our REST API and webhooks.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+          <div class="feature-icon">📈</div>
+          <h3 data-i18n="features.f6_title">Analytics Dashboard</h3>
+          <p data-i18n="features.f6_desc">Track card performance, conversion rates, and optimize your product listings.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      let current = "household";
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="pricing.tag">Pricing</span>
+        <h2><span data-i18n="pricing.title1">Simple,</span> <span class="gradient-text" data-i18n="pricing.title2">Transparent</span> <span data-i18n="pricing.title3">Pricing</span></h2>
+        <p data-i18n="pricing.subtitle">Start free, upgrade when you're ready</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card" data-aos="fade-up">
+          <div class="pricing-header">
+            <h3 data-i18n="pricing.free_name">Free</h3>
+            <div class="price"><span class="currency" data-i18n="pricing.free_price">$</span>0<span class="period"></span></div>
+            <p data-i18n="pricing.free_desc">Perfect for trying out</p>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> <span data-i18n="pricing.free_f1">3 product cards to try</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.free_f2">Request more cards via email</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.free_f3">Basic attribute extraction</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.free_f4">JSON export</span></li>
+            <li class="disabled"><span class="x">✗</span> <span data-i18n="pricing.free_f5">API access</span></li>
+            <li class="disabled"><span class="x">✗</span> <span data-i18n="pricing.free_f6">Bulk processing</span></li>
+          </ul>
+          <form class="pricing-form" onsubmit="handlePricingForm(event, 'free')">
+            <input type="email" data-i18n-placeholder="pricing.email_placeholder" placeholder="Your email" required>
+            <button type="submit" class="btn btn-outline btn-full" data-track="pricing_free" data-i18n="pricing.free_btn">Get Started Free</button>
+          </form>
+        </div>
+        
+        <div class="pricing-card popular" data-aos="fade-up" data-aos-delay="100">
+          <div class="popular-badge" data-i18n="pricing.popular">Most Popular</div>
+          <div class="pricing-header">
+            <h3 data-i18n="pricing.pro_name">Pro</h3>
+            <div class="price"><span class="price-value" data-i18n="pricing.pro_price">$25</span><span class="period" data-i18n="pricing.period">/month</span></div>
+            <p data-i18n="pricing.pro_desc">For growing sellers</p>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> <span data-i18n="pricing.pro_f1">Up to 1,000 cards/month + updates</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.pro_f2">API access</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.pro_f3">CSV/JSON upload via email</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.pro_f4">CSV/JSON export (email or download)</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.pro_f5">Email support</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.pro_f6">Download on completion</span></li>
+          </ul>
+          <form class="pricing-form" onsubmit="handlePricingForm(event, 'pro')">
+            <input type="email" data-i18n-placeholder="pricing.email_placeholder" placeholder="Your email" required>
+            <button type="submit" class="btn btn-primary btn-full" data-track="pricing_pro" data-i18n="pricing.pro_btn">Start Pro Plan</button>
+          </form>
+        </div>
+        
+        <div class="pricing-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="pricing-header">
+            <h3 data-i18n="pricing.ent_name">Enterprise</h3>
+            <div class="price"><span class="price-value" data-i18n="pricing.ent_price">Custom</span></div>
+            <p data-i18n="pricing.ent_desc">For teams & marketplaces</p>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> <span data-i18n="pricing.ent_f1">Everything in Pro</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.ent_f2">Full API access</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.ent_f3">Custom integrations</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.ent_f4">Dedicated account manager</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.ent_f5">SLA guarantee</span></li>
+            <li><span class="check">✓</span> <span data-i18n="pricing.ent_f6">Custom AI training</span></li>
+          </ul>
+          <form class="pricing-form" onsubmit="handlePricingForm(event, 'enterprise')">
+            <input type="email" data-i18n-placeholder="pricing.work_email" placeholder="Your work email" required>
+            <button type="submit" class="btn btn-outline btn-full" data-track="pricing_enterprise" data-i18n="pricing.ent_btn">Contact Sales</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      function selectNiche(e, key) {
-        current = key;
-        document
-          .querySelectorAll(".niche")
-          .forEach((b) => b.classList.remove("active"));
-        e.target.classList.add("active");
-        document.getElementById(
-          "demoTitle"
-        ).innerText = `Try it yourself — ${NICHES[key].title}`;
-        document.getElementById("input").value = NICHES[key].input;
+  <!-- Trusted By Companies -->
+  <section class="trusted-companies" id="trusted">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="trusted.tag">Trusted By</span>
+        <h2><span data-i18n="trusted.title1">Companies That</span> <span class="gradient-text" data-i18n="trusted.title2">Trust Us</span></h2>
+        <p data-i18n="trusted.subtitle">Join industry leaders who streamline their product catalogs with our AI</p>
+      </div>
+      <div class="company-logos" id="companyLogos">
+        <!-- RU companies - shown by default -->
+        <div class="company-logo logo-ru" data-aos="fade-up" title="Ozon">
+          <svg viewBox="0 0 120 40">
+            <circle cx="20" cy="20" r="12" stroke="#005bff" stroke-width="2.5" fill="none"/>
+            <text x="40" y="28" font-size="18" font-weight="bold" fill="#005bff">zon</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-ru" data-aos="fade-up" data-aos-delay="50" title="Wildberries">
+          <svg viewBox="0 0 140 40">
+            <text x="5" y="28" font-size="14" font-weight="bold" fill="#cb11ab">Wildberries</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-ru" data-aos="fade-up" data-aos-delay="100" title="Яндекс Маркет">
+          <svg viewBox="0 0 130 40">
+            <text x="5" y="24" font-size="14" font-weight="bold" fill="#fc3f1d">Яндекс</text>
+            <text x="5" y="36" font-size="10" font-weight="500" fill="#ffcc00">Маркет</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-ru" data-aos="fade-up" data-aos-delay="150" title="РосТорг">
+          <svg viewBox="0 0 120 40">
+            <rect x="8" y="12" width="6" height="16" fill="#22c55e"/>
+            <text x="18" y="28" font-size="14" font-weight="bold" fill="#94a3b8">РосТорг</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-ru" data-aos="fade-up" data-aos-delay="200" title="МаркетПро">
+          <svg viewBox="0 0 130 40">
+            <circle cx="15" cy="20" r="6" fill="#3b82f6"/>
+            <text x="25" y="28" font-size="13" font-weight="bold" fill="#94a3b8">МаркетПро</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-ru" data-aos="fade-up" data-aos-delay="250" title="СуперСток">
+          <svg viewBox="0 0 130 40">
+            <polygon points="15,10 20,20 15,30 10,20" fill="#f59e0b"/>
+            <text x="25" y="28" font-size="13" font-weight="bold" fill="#94a3b8">СуперСток</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-ru" data-aos="fade-up" data-aos-delay="300" title="ТоргЛинк">
+          <svg viewBox="0 0 120 40">
+            <path d="M12 15 L18 15 L18 25 L12 25 Z M10 20 L24 20" stroke="#8b5cf6" stroke-width="2" fill="none"/>
+            <text x="28" y="28" font-size="13" font-weight="bold" fill="#94a3b8">ТоргЛинк</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-ru" data-aos="fade-up" data-aos-delay="350" title="БизнесМарт">
+          <svg viewBox="0 0 140 40">
+            <circle cx="15" cy="20" r="8" fill="#ec4899"/>
+            <circle cx="15" cy="20" r="4" fill="#fbbf24"/>
+            <text x="28" y="28" font-size="12" font-weight="bold" fill="#94a3b8">БизнесМарт</text>
+          </svg>
+        </div>
+        
+        <!-- EN companies - hidden by default -->
+        <div class="company-logo logo-en" data-aos="fade-up" title="Shopify" style="display:none;">
+          <svg viewBox="0 0 120 40">
+            <path d="M25 10l-2 1v1l-3 1s-1-2-4-2c-3 0-6 2-6 7 0 4 2 6 5 6 2 0 3-1 4-2l1 1h3v-11l2-1v-1zm-5 12c-1 1-2 1-3 1-1 0-2-1-2-4s1-4 3-4c1 0 2 1 2 1v6z" fill="#95bf47"/>
+            <text x="32" y="26" font-size="12" font-weight="600" fill="#95bf47">Shopify</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-en" data-aos="fade-up" data-aos-delay="50" title="BigCommerce" style="display:none;">
+          <svg viewBox="0 0 140 40">
+            <circle cx="12" cy="20" r="8" fill="#3c64f4"/>
+            <text x="24" y="28" font-size="12" font-weight="bold" fill="#3c64f4">BigCommerce</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-en" data-aos="fade-up" data-aos-delay="100" title="WooCommerce" style="display:none;">
+          <svg viewBox="0 0 140 40">
+            <path d="M10 20 Q15 10 20 20 T30 20" stroke="#96588a" stroke-width="2" fill="none"/>
+            <text x="35" y="28" font-size="11" font-weight="bold" fill="#96588a">WooCommerce</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-en" data-aos="fade-up" data-aos-delay="150" title="eBay" style="display:none;">
+          <svg viewBox="0 0 100 40">
+            <text x="5" y="28" font-size="18" font-weight="bold" font-style="italic">
+              <tspan fill="#e53238">e</tspan><tspan fill="#0064d2">B</tspan><tspan fill="#f5af02">a</tspan><tspan fill="#86b817">y</tspan>
+            </text>
+          </svg>
+        </div>
+        <div class="company-logo logo-en" data-aos="fade-up" data-aos-delay="200" title="Magento" style="display:none;">
+          <svg viewBox="0 0 120 40">
+            <path d="M15 10 L20 15 L15 30 L10 15 Z" fill="#f26322"/>
+            <text x="25" y="28" font-size="13" font-weight="bold" fill="#f26322">Magento</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-en" data-aos="fade-up" data-aos-delay="250" title="PrestaShop" style="display:none;">
+          <svg viewBox="0 0 130 40">
+            <circle cx="15" cy="20" r="8" fill="#df0067"/>
+            <text x="28" y="28" font-size="12" font-weight="bold" fill="#df0067">PrestaShop</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-en" data-aos="fade-up" data-aos-delay="300" title="CommerceHub" style="display:none;">
+          <svg viewBox="0 0 140 40">
+            <rect x="8" y="14" width="8" height="12" fill="#06b6d4"/>
+            <text x="20" y="28" font-size="11" font-weight="bold" fill="#94a3b8">CommerceHub</text>
+          </svg>
+        </div>
+        <div class="company-logo logo-en" data-aos="fade-up" data-aos-delay="350" title="TradeLink" style="display:none;">
+          <svg viewBox="0 0 120 40">
+            <polygon points="15,12 20,20 15,28 10,20" fill="#8b5cf6"/>
+            <text x="25" y="28" font-size="12" font-weight="bold" fill="#94a3b8">TradeLink</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="testimonials.tag">Success Stories</span>
+        <h2><span data-i18n="testimonials.title1">Real Results from</span> <span class="gradient-text" data-i18n="testimonials.title2">Real Users</span></h2>
+        <p data-i18n="testimonials.subtitle">See how businesses transformed their product management</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card" data-aos="fade-up">
+          <div class="testimonial-stars">★★★★★</div>
+          <p data-i18n="testimonials.t1_text">"We reduced our product listing time from 15 minutes to under 30 seconds per item. This tool paid for itself in the first week. Our team of 12 content writers now handles 5x the volume."</p>
+          <div class="testimonial-author">
+            <div class="avatar avatar-1">
+              <svg viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="24" fill="url(#grad1)"/>
+                <circle cx="24" cy="18" r="8" fill="rgba(255,255,255,0.9)"/>
+                <ellipse cx="24" cy="38" rx="12" ry="10" fill="rgba(255,255,255,0.9)"/>
+                <defs><linearGradient id="grad1" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+              </svg>
+            </div>
+            <div class="author-info">
+              <strong data-i18n="testimonials.t1_name">Marcus Chen</strong>
+              <span data-i18n="testimonials.t1_role">Head of E-commerce, TechStyle Group</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="testimonial-stars">★★★★★</div>
+          <p data-i18n="testimonials.t2_text">"The AI catches product details that even our experienced team misses. Our search rankings improved 40% after switching to CardGenAI-generated descriptions. Absolutely essential tool."</p>
+          <div class="testimonial-author">
+            <div class="avatar avatar-2">
+              <svg viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="24" fill="url(#grad2)"/>
+                <circle cx="24" cy="18" r="8" fill="rgba(255,255,255,0.9)"/>
+                <ellipse cx="24" cy="38" rx="12" ry="10" fill="rgba(255,255,255,0.9)"/>
+                <path d="M12 16c4-8 20-8 24 0" stroke="rgba(255,255,255,0.9)" stroke-width="3" fill="none"/>
+                <defs><linearGradient id="grad2" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#818cf8"/></linearGradient></defs>
+              </svg>
+            </div>
+            <div class="author-info">
+              <strong data-i18n="testimonials.t2_name">Elena Rodriguez</strong>
+              <span data-i18n="testimonials.t2_role">SEO Director, ModaExpress</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="testimonial-stars">★★★★★</div>
+          <p data-i18n="testimonials.t3_text">"Integration with our WMS was seamless. We process 50,000+ SKUs monthly through the API. The consistency and accuracy across our entire catalog has never been better."</p>
+          <div class="testimonial-author">
+            <div class="avatar avatar-3">
+              <svg viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="24" fill="url(#grad3)"/>
+                <circle cx="24" cy="18" r="8" fill="rgba(255,255,255,0.9)"/>
+                <ellipse cx="24" cy="38" rx="12" ry="10" fill="rgba(255,255,255,0.9)"/>
+                <defs><linearGradient id="grad3" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#10b981"/><stop offset="1" stop-color="#6366f1"/></linearGradient></defs>
+              </svg>
+            </div>
+            <div class="author-info">
+              <strong data-i18n="testimonials.t3_name">David Okonkwo</strong>
+              <span data-i18n="testimonials.t3_role">CTO, GlobalRetail Solutions</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="testimonial-stars">★★★★★</div>
+          <p data-i18n="testimonials.t4_text">"As a solo Etsy seller, I was spending evenings writing product descriptions. Now I upload my photos and notes, and get professional listings instantly. Game changer for small businesses."</p>
+          <div class="testimonial-author">
+            <div class="avatar avatar-4">
+              <svg viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="24" fill="url(#grad4)"/>
+                <circle cx="24" cy="18" r="8" fill="rgba(255,255,255,0.9)"/>
+                <ellipse cx="24" cy="38" rx="12" ry="10" fill="rgba(255,255,255,0.9)"/>
+                <path d="M10 14c6-6 22-6 28 0" stroke="rgba(255,255,255,0.9)" stroke-width="3" fill="none"/>
+                <defs><linearGradient id="grad4" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
+              </svg>
+            </div>
+            <div class="author-info">
+              <strong data-i18n="testimonials.t4_name">Sophie Laurent</strong>
+              <span data-i18n="testimonials.t4_role">Owner, Artisan Crafts Studio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta" id="signup">
+    <div class="container">
+      <div class="cta-content" data-aos="fade-up">
+        <h2><span data-i18n="cta.title1">Ready to Transform Your</span><br><span class="gradient-text" data-i18n="cta.title2">Product Listings?</span></h2>
+        <p data-i18n="cta.subtitle">Join 2,500+ sellers who save hours every week with AI-powered product cards.</p>
+        <form class="cta-form" id="ctaForm">
+          <div class="form-group">
+            <input type="email" id="ctaEmail" data-i18n-placeholder="cta.email_placeholder" placeholder="Enter your work email" required>
+            <button type="submit" class="btn btn-primary" data-track="footer_cta" data-i18n="cta.btn">Get Started Free</button>
+          </div>
+        </form>
+        <div class="cta-features">
+          <span data-i18n="cta.feature1">✓ No credit card required</span>
+          <span data-i18n="cta.feature2">✓ 50 free cards/month</span>
+          <span data-i18n="cta.feature3">✓ Cancel anytime</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-minimal">
+        <a href="#" class="logo">
+          <span class="logo-icon">✨</span>
+          <span>CardGen<span class="logo-ai">AI</span></span>
+        </a>
+        <div class="footer-links-inline">
+          <a href="#features" data-i18n="footer.features">Features</a>
+          <a href="#pricing" data-i18n="footer.pricing">Pricing</a>
+          <a href="#" data-i18n="footer.privacy">Privacy</a>
+          <a href="#" data-i18n="footer.terms">Terms</a>
+        </div>
+        <p class="footer-copy" data-i18n="footer.copyright">© 2026 CardGenAI. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript: Analytics, Interactions, Demo -->
+  <script>
+    // =============================================
+    // INTERNATIONALIZATION (i18n)
+    // =============================================
+    const translations = {
+      en: {
+        // Navigation
+        'nav.features': 'Features',
+        'nav.demo': 'Demo',
+        'nav.pricing': 'Pricing',
+        'nav.customers': 'Customers',
+        'nav.cta': 'Get Started Free',
+        
+        // Hero
+        'hero.badge': 'Trusted by 2,500+ e-commerce sellers',
+        'hero.title1': 'Transform',
+        'hero.title2': 'Product Descriptions',
+        'hero.title3': 'Into Sales-Ready Cards',
+        'hero.subtitle': 'AI-powered tool that extracts key attributes, generates compelling copy, and creates professional product cards in seconds — not hours.',
+        'hero.email_placeholder': 'Enter your email',
+        'hero.cta': 'Start Free Trial',
+        'hero.form_note': '✓ No credit card required  ✓ 50 free cards/month',
+        'hero.stat1': 'Cards Generated',
+        'hero.stat2': 'Time Saved',
+        'hero.stat3': 'User Rating',
+        
+        // Features
+        'features.tag': 'Features',
+        'features.title1': 'Everything You Need to',
+        'features.title2': 'Scale',
+        'features.subtitle': 'Powerful AI tools designed for both individual sellers and enterprise teams',
+        'features.f1_title': 'Smart Attribute Extraction',
+        'features.f1_desc': 'AI automatically identifies and extracts brand, size, color, material, and 50+ other attributes from any text.',
+        'features.f2_title': 'SEO-Optimized Copy',
+        'features.f2_desc': 'Generate compelling product titles and descriptions that rank higher and convert better.',
+        'features.f3_title': 'Multi-Language Support',
+        'features.f3_desc': 'Process descriptions in 25+ languages and translate output for global marketplaces.',
+        'features.f4_title': 'Bulk Processing',
+        'features.f4_desc': 'Upload CSV files with thousands of products and process them all in minutes, not days.',
+        'features.f5_title': 'API Integration',
+        'features.f5_desc': 'Connect directly to your e-commerce platform with our REST API and webhooks.',
+        'features.f6_title': 'Analytics Dashboard',
+        'features.f6_desc': 'Track card performance, conversion rates, and optimize your product listings.',
+        
+        // Demo
+        'demo.tag': 'How It Works',
+        'demo.title1': 'From Chaos to',
+        'demo.title2': 'Clarity',
+        'demo.title3': 'in 3 Steps',
+        'demo.subtitle': 'No technical skills required — just paste and go. Try it yourself below!',
+        'demo.step1_title': 'Paste Your Description',
+        'demo.step1_desc': 'Copy any messy product text from suppliers or manufacturers.',
+        'demo.step2_title': 'AI Processes',
+        'demo.step2_desc': 'Our AI extracts attributes and generates optimized content.',
+        'demo.step3_title': 'Export & Publish',
+        'demo.step3_desc': 'Download your polished product card or push to your store.',
+        'demo.niche_household': '🧴 Household',
+        'demo.niche_decor': '🏺 Decor',
+        'demo.niche_office': '🖊 Office',
+        'demo.niche_electronics': '📱 Electronics',
+        'demo.input_title': 'Input Description',
+        'demo.input_placeholder': 'Paste any product description here...',
+        'demo.generate_btn': 'Generate Product Card',
+        'demo.processing': 'Processing...',
+        'demo.attrs_title': 'Extracted Attributes',
+        'demo.attrs_placeholder': 'Attributes will appear here',
+        'demo.preview_title': 'Product Card Preview',
+        'demo.preview_placeholder': 'Your generated card will appear here',
+        'demo.cta_text': 'Like what you see? Get <strong>50 free cards</strong> when you sign up today.',
+        'demo.cta_btn': 'Start Free Trial',
+        
+        // Pricing
+        'pricing.tag': 'Pricing',
+        'pricing.title1': 'Simple,',
+        'pricing.title2': 'Transparent',
+        'pricing.title3': 'Pricing',
+        'pricing.subtitle': 'Start free, upgrade when you\'re ready',
+        'pricing.period': '/month',
+        'pricing.popular': 'Most Popular',
+        'pricing.email_placeholder': 'Your email',
+        'pricing.work_email': 'Your work email',
+        'pricing.free_name': 'Free',
+        'pricing.free_price': '$',
+        'pricing.free_desc': 'Perfect for trying out',
+        'pricing.free_f1': '3 product cards to try',
+        'pricing.free_f2': 'Request more cards via email',
+        'pricing.free_f3': 'Basic attribute extraction',
+        'pricing.free_f4': 'JSON export',
+        'pricing.free_f5': 'API access',
+        'pricing.free_f6': 'Bulk processing',
+        'pricing.free_btn': 'Get Started Free',
+        'pricing.pro_name': 'Pro',
+        'pricing.pro_price': '$25',
+        'pricing.pro_desc': 'For growing sellers',
+        'pricing.pro_f1': 'Up to 1,000 cards/month + updates',
+        'pricing.pro_f2': 'API access',
+        'pricing.pro_f3': 'CSV/JSON upload via email',
+        'pricing.pro_f4': 'CSV/JSON export (email or download)',
+        'pricing.pro_f5': 'Email support',
+        'pricing.pro_f6': 'Download on completion',
+        'pricing.pro_btn': 'Start Pro Plan',
+        'pricing.ent_name': 'Enterprise',
+        'pricing.ent_price': 'Custom',
+        'pricing.ent_desc': 'For teams & marketplaces',
+        'pricing.ent_f1': 'Everything in Pro',
+        'pricing.ent_f2': 'Full API access',
+        'pricing.ent_f3': 'Custom integrations',
+        'pricing.ent_f4': 'Dedicated account manager',
+        'pricing.ent_f5': 'SLA guarantee',
+        'pricing.ent_f6': 'Custom AI training',
+        'pricing.ent_btn': 'Contact Sales',
+        
+        // Trusted
+        'trusted.tag': 'Trusted By',
+        'trusted.title1': 'Companies That',
+        'trusted.title2': 'Trust Us',
+        'trusted.subtitle': 'Join industry leaders who streamline their product catalogs with our AI',
+        
+        // Testimonials
+        'testimonials.tag': 'Success Stories',
+        'testimonials.title1': 'Real Results from',
+        'testimonials.title2': 'Real Users',
+        'testimonials.subtitle': 'See how businesses transformed their product management',
+        'testimonials.t1_text': '"We reduced our product listing time from 15 minutes to under 30 seconds per item. This tool paid for itself in the first week. Our team of 12 content writers now handles 5x the volume."',
+        'testimonials.t1_name': 'Marcus Chen',
+        'testimonials.t1_role': 'Head of E-commerce, TechStyle Group',
+        'testimonials.t2_text': '"The AI catches product details that even our experienced team misses. Our search rankings improved 40% after switching to CardGenAI-generated descriptions. Absolutely essential tool."',
+        'testimonials.t2_name': 'Elena Rodriguez',
+        'testimonials.t2_role': 'SEO Director, ModaExpress',
+        'testimonials.t3_text': '"Integration with our WMS was seamless. We process 50,000+ SKUs monthly through the API. The consistency and accuracy across our entire catalog has never been better."',
+        'testimonials.t3_name': 'David Okonkwo',
+        'testimonials.t3_role': 'CTO, GlobalRetail Solutions',
+        'testimonials.t4_text': '"As a solo Etsy seller, I was spending evenings writing product descriptions. Now I upload my photos and notes, and get professional listings instantly. Game changer for small businesses."',
+        'testimonials.t4_name': 'Sophie Laurent',
+        'testimonials.t4_role': 'Owner, Artisan Crafts Studio',
+        
+        // CTA
+        'cta.title1': 'Ready to Transform Your',
+        'cta.title2': 'Product Listings?',
+        'cta.subtitle': 'Join 2,500+ sellers who save hours every week with AI-powered product cards.',
+        'cta.email_placeholder': 'Enter your work email',
+        'cta.btn': 'Get Started Free',
+        'cta.feature1': '✓ No credit card required',
+        'cta.feature2': '✓ 50 free cards/month',
+        'cta.feature3': '✓ Cancel anytime',
+        
+        // Footer
+        'footer.brand_desc': 'AI-powered product card generation for modern e-commerce.',
+        'footer.product': 'Product',
+        'footer.features': 'Features',
+        'footer.pricing': 'Pricing',
+        'footer.demo': 'Demo',
+        'footer.api': 'API Docs',
+        'footer.company': 'Company',
+        'footer.about': 'About',
+        'footer.blog': 'Blog',
+        'footer.careers': 'Careers',
+        'footer.contact': 'Contact',
+        'footer.legal': 'Legal',
+        'footer.privacy': 'Privacy Policy',
+        'footer.terms': 'Terms of Service',
+        'footer.cookies': 'Cookie Policy',
+        'footer.copyright': '© 2026 CardGenAI. All rights reserved.'
+      },
+      ru: {
+        // Navigation
+        'nav.features': 'Возможности',
+        'nav.demo': 'Демо',
+        'nav.pricing': 'Цены',
+        'nav.customers': 'Клиенты',
+        'nav.cta': 'Начать бесплатно',
+        
+        // Hero
+        'hero.badge': 'Нам доверяют 2 500+ продавцов',
+        'hero.title1': 'Превращайте',
+        'hero.title2': 'описания товаров',
+        'hero.title3': 'в продающие карточки',
+        'hero.subtitle': 'AI-инструмент, который извлекает ключевые атрибуты, генерирует продающие тексты и создаёт профессиональные карточки товаров за секунды — не часы.',
+        'hero.email_placeholder': 'Введите ваш email',
+        'hero.cta': 'Попробовать бесплатно',
+        'hero.form_note': '✓ Без привязки карты  ✓ 50 карточек бесплатно',
+        'hero.stat1': 'Карточек создано',
+        'hero.stat2': 'Экономия времени',
+        'hero.stat3': 'Оценка пользователей',
+        
+        // Features
+        'features.tag': 'Возможности',
+        'features.title1': 'Всё, что нужно для',
+        'features.title2': 'масштабирования',
+        'features.subtitle': 'Мощные AI-инструменты для индивидуальных продавцов и корпоративных команд',
+        'features.f1_title': 'Умное извлечение атрибутов',
+        'features.f1_desc': 'AI автоматически определяет и извлекает бренд, размер, цвет, материал и 50+ других атрибутов из любого текста.',
+        'features.f2_title': 'SEO-оптимизированные тексты',
+        'features.f2_desc': 'Генерируйте продающие заголовки и описания, которые лучше ранжируются и конвертируют.',
+        'features.f3_title': 'Мультиязычность',
+        'features.f3_desc': 'Обрабатывайте описания на 25+ языках и переводите для глобальных маркетплейсов.',
+        'features.f4_title': 'Массовая обработка',
+        'features.f4_desc': 'Загружайте CSV-файлы с тысячами товаров и обрабатывайте их за минуты, а не дни.',
+        'features.f5_title': 'API интеграция',
+        'features.f5_desc': 'Подключайтесь напрямую к вашей e-commerce платформе через REST API и вебхуки.',
+        'features.f6_title': 'Панель аналитики',
+        'features.f6_desc': 'Отслеживайте эффективность карточек, конверсии и оптимизируйте листинги.',
+        
+        // Demo
+        'demo.tag': 'Как это работает',
+        'demo.title1': 'От хаоса к',
+        'demo.title2': 'порядку',
+        'demo.title3': 'за 3 шага',
+        'demo.subtitle': 'Технические навыки не нужны — просто вставьте текст. Попробуйте сами!',
+        'demo.step1_title': 'Вставьте описание',
+        'demo.step1_desc': 'Скопируйте любой текст товара от поставщика или производителя.',
+        'demo.step2_title': 'AI обрабатывает',
+        'demo.step2_desc': 'Наш AI извлекает атрибуты и генерирует оптимизированный контент.',
+        'demo.step3_title': 'Экспорт и публикация',
+        'demo.step3_desc': 'Скачайте готовую карточку или отправьте прямо в магазин.',
+        'demo.niche_household': '🧴 Бытовая химия',
+        'demo.niche_decor': '🏺 Декор',
+        'demo.niche_office': '🖊 Канцелярия',
+        'demo.niche_electronics': '📱 Электроника',
+        'demo.input_title': 'Исходное описание',
+        'demo.input_placeholder': 'Вставьте любое описание товара...',
+        'demo.generate_btn': 'Сгенерировать карточку',
+        'demo.processing': 'Обработка...',
+        'demo.attrs_title': 'Извлечённые атрибуты',
+        'demo.attrs_placeholder': 'Атрибуты появятся здесь',
+        'demo.preview_title': 'Предпросмотр карточки',
+        'demo.preview_placeholder': 'Готовая карточка появится здесь',
+        'demo.cta_text': 'Понравилось? Получите <strong>50 бесплатных карточек</strong> при регистрации.',
+        'demo.cta_btn': 'Попробовать бесплатно',
+        
+        // Pricing
+        'pricing.tag': 'Тарифы',
+        'pricing.title1': 'Простые',
+        'pricing.title2': 'прозрачные',
+        'pricing.title3': 'цены',
+        'pricing.subtitle': 'Начните бесплатно, улучшайте когда готовы',
+        'pricing.period': '/месяц',
+        'pricing.popular': 'Популярный',
+        'pricing.email_placeholder': 'Ваш email',
+        'pricing.work_email': 'Рабочий email',
+        'pricing.free_name': 'Бесплатно',
+        'pricing.free_price': '',
+        'pricing.free_desc': 'Попробуйте сервис',
+        'pricing.free_f1': '3 карточки для теста',
+        'pricing.free_f2': 'Запрос доп. карточек через email',
+        'pricing.free_f3': 'Базовое извлечение атрибутов',
+        'pricing.free_f4': 'Выгрузка в JSON',
+        'pricing.free_f5': 'Доступ к API',
+        'pricing.free_f6': 'Массовая обработка',
+        'pricing.free_btn': 'Начать бесплатно',
+        'pricing.pro_name': 'Про',
+        'pricing.pro_price': '2 000 ₽',
+        'pricing.pro_desc': 'Для растущих продавцов',
+        'pricing.pro_f1': 'До 1 000 карточек/месяц + обновления',
+        'pricing.pro_f2': 'Доступ по API',
+        'pricing.pro_f3': 'Загрузка CSV/JSON на email',
+        'pricing.pro_f4': 'Выгрузка CSV/JSON (email или скачать)',
+        'pricing.pro_f5': 'Поддержка по email',
+        'pricing.pro_f6': 'Скачивание по завершению',
+        'pricing.pro_btn': 'Выбрать Про',
+        'pricing.ent_name': 'Корпоративный',
+        'pricing.ent_price': 'По запросу',
+        'pricing.ent_desc': 'Для команд и маркетплейсов',
+        'pricing.ent_f1': 'Всё из тарифа Про',
+        'pricing.ent_f2': 'Полный доступ к API',
+        'pricing.ent_f3': 'Кастомные интеграции',
+        'pricing.ent_f4': 'Персональный менеджер',
+        'pricing.ent_f5': 'Гарантия SLA',
+        'pricing.ent_f6': 'Обучение AI под вас',
+        'pricing.ent_btn': 'Запросить цену',
+        
+        // Trusted
+        'trusted.tag': 'Нам доверяют',
+        'trusted.title1': 'Компании, которые',
+        'trusted.title2': 'нам доверяют',
+        'trusted.subtitle': 'Присоединяйтесь к лидерам рынка, которые оптимизируют каталоги с помощью нашего AI',
+        
+        // Testimonials
+        'testimonials.tag': 'Истории успеха',
+        'testimonials.title1': 'Реальные результаты',
+        'testimonials.title2': 'реальных клиентов',
+        'testimonials.subtitle': 'Узнайте, как бизнесы трансформировали управление товарами',
+        'testimonials.t1_text': '«Мы сократили время создания карточки с 15 минут до 30 секунд. Инструмент окупился за первую неделю. Наша команда из 12 контент-менеджеров теперь обрабатывает в 5 раз больше товаров.»',
+        'testimonials.t1_name': 'Алексей Петров',
+        'testimonials.t1_role': 'Руководитель e-commerce, TechStyle Group',
+        'testimonials.t2_text': '«AI замечает детали товаров, которые упускает даже опытная команда. Наши позиции в поиске выросли на 40% после перехода на описания CardGenAI. Незаменимый инструмент.»',
+        'testimonials.t2_name': 'Мария Иванова',
+        'testimonials.t2_role': 'SEO директор, ModaExpress',
+        'testimonials.t3_text': '«Интеграция с нашей WMS прошла гладко. Мы обрабатываем 50 000+ SKU ежемесячно через API. Качество и точность по всему каталогу никогда не были лучше.»',
+        'testimonials.t3_name': 'Дмитрий Козлов',
+        'testimonials.t3_role': 'CTO, GlobalRetail Solutions',
+        'testimonials.t4_text': '«Как продавец на Wildberries, я тратила вечера на описания товаров. Теперь загружаю фото и заметки, и получаю профессиональные листинги мгновенно. Это меняет всё для малого бизнеса.»',
+        'testimonials.t4_name': 'Анна Смирнова',
+        'testimonials.t4_role': 'Владелец, Artisan Crafts Studio',
+        
+        // CTA
+        'cta.title1': 'Готовы трансформировать',
+        'cta.title2': 'ваши карточки товаров?',
+        'cta.subtitle': 'Присоединяйтесь к 2 500+ продавцам, которые экономят часы каждую неделю.',
+        'cta.email_placeholder': 'Введите рабочий email',
+        'cta.btn': 'Начать бесплатно',
+        'cta.feature1': '✓ Без привязки карты',
+        'cta.feature2': '✓ 50 карточек бесплатно',
+        'cta.feature3': '✓ Отмена в любой момент',
+        
+        // Footer
+        'footer.brand_desc': 'AI-генерация карточек товаров для современной электронной коммерции.',
+        'footer.product': 'Продукт',
+        'footer.features': 'Возможности',
+        'footer.pricing': 'Цены',
+        'footer.demo': 'Демо',
+        'footer.api': 'API документация',
+        'footer.company': 'Компания',
+        'footer.about': 'О нас',
+        'footer.blog': 'Блог',
+        'footer.careers': 'Карьера',
+        'footer.contact': 'Контакты',
+        'footer.legal': 'Правовая информация',
+        'footer.privacy': 'Политика конфиденциальности',
+        'footer.terms': 'Условия использования',
+        'footer.cookies': 'Политика cookies',
+        'footer.copyright': '© 2026 CardGenAI. Все права защищены.'
+      }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'en';
+    let currentTheme = localStorage.getItem('theme') || 'dark';
+
+    // Theme toggle function
+    function toggleTheme() {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', currentTheme);
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      Analytics.track('theme_change', { theme: currentTheme });
+    }
+
+    // Initialize theme
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang;
+      
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      
+      // Update all translatable elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+      
+      // Update placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.dataset.i18nPlaceholder;
+        if (translations[lang][key]) {
+          el.placeholder = translations[lang][key];
+        }
+      });
+      
+      // Update demo content for current language
+      if (typeof currentNiche !== 'undefined' && NICHES[currentNiche]) {
+        const n = NICHES[currentNiche];
+        document.getElementById('input').value = lang === 'ru' ? n.input : (n.input_en || n.input);
         clearResults();
       }
+      
+      // Update company logos based on language
+      document.querySelectorAll('.logo-ru').forEach(el => {
+        el.style.display = lang === 'ru' ? 'flex' : 'none';
+      });
+      document.querySelectorAll('.logo-en').forEach(el => {
+        el.style.display = lang === 'en' ? 'flex' : 'none';
+      });
+      
+      // Track language change
+      Analytics.track('language_change', { language: lang });
+    }
 
-      function clearResults() {
-        document.getElementById("attrs").innerHTML = "";
-        document.getElementById("preview").innerHTML = "";
+    // =============================================
+    // ANALYTICS TRACKING LAYER
+    // =============================================
+    const Analytics = {
+      // Track custom events to both GA4 and Yandex
+      track: function(eventName, params = {}) {
+        // GA4 Event
+        if (typeof gtag === 'function') {
+          try {
+            gtag('event', eventName, params);
+          } catch(e) {
+            console.log('GA4 not configured');
+          }
+        }
+        // Yandex Metrika Event (only if YM_ID is defined)
+        if (typeof ym === 'function' && typeof window.YM_ID !== 'undefined') {
+          try {
+            ym(window.YM_ID, 'reachGoal', eventName, params);
+          } catch(e) {
+            console.log('Yandex Metrika not configured');
+          }
+        }
+        // Console log for debugging
+        console.log('📊 Event:', eventName, params);
+      },
+
+      // Track page view
+      pageView: function(page) {
+        this.track('page_view', { page_title: page });
+      },
+
+      // Track scroll depth
+      scrollDepth: function(percentage) {
+        this.track('scroll_depth', { depth: percentage });
+      },
+
+      // Track form events
+      formStart: function(formId) {
+        this.track('form_start', { form_id: formId });
+      },
+      formSubmit: function(formId, email) {
+        this.track('form_submit', { form_id: formId, email_domain: email.split('@')[1] || 'unknown' });
+      },
+
+      // Track CTA clicks
+      ctaClick: function(ctaName, location) {
+        this.track('cta_click', { cta_name: ctaName, location: location });
+      },
+
+      // Track demo interactions
+      demoInteraction: function(action, details = {}) {
+        this.track('demo_interaction', { action: action, ...details });
+      },
+
+      // Track pricing interactions
+      pricingView: function(plan) {
+        this.track('pricing_view', { plan: plan });
+      },
+
+      // Track FAQ interactions
+      faqExpand: function(question) {
+        this.track('faq_expand', { question: question });
+      },
+
+      // Track time on page
+      timeOnPage: function(seconds) {
+        this.track('time_on_page', { seconds: seconds });
+      },
+
+      // Track section views
+      sectionView: function(sectionId) {
+        this.track('section_view', { section: sectionId });
       }
+    };
 
-      function generate() {
-        clearResults();
-        const n = NICHES[current];
-        const a = document.getElementById("attrs");
-        const p = document.getElementById("preview");
-
-        n.attrs.forEach((x, i) => {
-          setTimeout(() => {
-            a.innerHTML += `<div><strong>${x[0]}</strong><span>${x[1]}</span></div>`;
-            a.classList.remove("shimmer");
-          }, 250 * i);
+    // =============================================
+    // SCROLL TRACKING
+    // =============================================
+    const scrollTracking = {
+      milestones: [25, 50, 75, 100],
+      reached: new Set(),
+      
+      init: function() {
+        window.addEventListener('scroll', () => this.check());
+      },
+      
+      check: function() {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
+        
+        this.milestones.forEach(milestone => {
+          if (scrollPercent >= milestone && !this.reached.has(milestone)) {
+            this.reached.add(milestone);
+            Analytics.scrollDepth(milestone);
+          }
         });
-
-        setTimeout(() => {
-          p.innerHTML = `<strong>${n.preview.title}</strong><p>${n.preview.text}</p>`;
-          p.classList.remove("shimmer");
-        }, 250 * n.attrs.length);
       }
+    };
 
-      selectNiche(
-        { target: document.querySelector(".niche.active") },
-        "household"
-      );
-    </script>
-  </body>
+    // =============================================
+    // SECTION VISIBILITY TRACKING
+    // =============================================
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id;
+          if (sectionId) {
+            Analytics.sectionView(sectionId);
+          }
+          // Trigger AOS animations
+          entry.target.querySelectorAll('[data-aos]').forEach(el => {
+            el.classList.add('aos-animate');
+          });
+        }
+      });
+    }, { threshold: 0.2 });
+
+    // =============================================
+    // TIME ON PAGE TRACKING
+    // =============================================
+    let pageStartTime = Date.now();
+    const timeIntervals = [30, 60, 120, 300]; // seconds
+    let trackedIntervals = new Set();
+
+    setInterval(() => {
+      const secondsOnPage = Math.floor((Date.now() - pageStartTime) / 1000);
+      timeIntervals.forEach(interval => {
+        if (secondsOnPage >= interval && !trackedIntervals.has(interval)) {
+          trackedIntervals.add(interval);
+          Analytics.timeOnPage(interval);
+        }
+      });
+    }, 5000);
+
+    // =============================================
+    // DEMO FUNCTIONALITY
+    // =============================================
+    const NICHES = {
+      household: {
+        title: 'Household',
+        input: 'Мешки п/этилен 32х50х50мкм 100/600 Гор',
+        input_en: 'Polyethylene bags 32x50x50mcm 100/600 Hot',
+        json: {
+          abbreviations: [{ abbr: "п/этилен", expansion: "полиэтилен", frequency: 1 }],
+          brands: [],
+          materials: [{ material: "полиэтилен", frequency: 1 }],
+          forms: [{ form: "мешок", frequency: 1 }],
+          colors: [],
+          technical_patterns: ["32х50х50мкм", "100/600"],
+          semantic_name: "мешок полиэтилен 32х50х50мкм 100/600"
+        },
+        card: {
+          title: "Мешок полиэтиленовый 32×50 см, 50 мкм",
+          title_en: "Polyethylene Bag 32×50 cm, 50 mcm",
+          category: "Упаковка",
+          category_en: "Packaging",
+          specs: [
+            { icon: "📦", label: "Материал", label_en: "Material", value: "Полиэтилен", value_en: "Polyethylene" },
+            { icon: "📐", label: "Размер", label_en: "Size", value: "32×50 см", value_en: "32×50 cm" },
+            { icon: "📏", label: "Толщина", label_en: "Thickness", value: "50 мкм", value_en: "50 mcm" },
+            { icon: "🔢", label: "Кол-во", label_en: "Quantity", value: "100/600 шт", value_en: "100/600 pcs" }
+          ]
+        }
+      },
+      decor: {
+        title: 'Decor',
+        input: 'Ваза Анабель янтарь h15.5см стекло выдувное',
+        input_en: 'Vase Anabel amber h15.5cm blown glass',
+        json: {
+          abbreviations: [{ abbr: "h", expansion: "высота", frequency: 1 }],
+          brands: [],
+          materials: [{ material: "стекло выдувное", frequency: 1 }],
+          forms: [{ form: "ваза", frequency: 1 }],
+          colors: [{ color: "янтарь", frequency: 1 }],
+          technical_patterns: ["15.5см"],
+          collections: [{ name: "Анабель", frequency: 1 }],
+          semantic_name: "ваза Анабель янтарь стекло выдувное 15.5см"
+        },
+        card: {
+          title: "Ваза Анабель, выдувное стекло, янтарь",
+          title_en: "Anabel Vase, Blown Glass, Amber",
+          category: "Декор",
+          category_en: "Decor",
+          specs: [
+            { icon: "🏷️", label: "Коллекция", label_en: "Collection", value: "Анабель", value_en: "Anabel" },
+            { icon: "✨", label: "Материал", label_en: "Material", value: "Выдувное стекло", value_en: "Blown glass" },
+            { icon: "🎨", label: "Цвет", label_en: "Color", value: "Янтарь", value_en: "Amber" },
+            { icon: "📏", label: "Высота", label_en: "Height", value: "15.5 см", value_en: "15.5 cm" }
+          ]
+        }
+      },
+      office: {
+        title: 'Office',
+        input: 'Маркеры BRAUBERG для флипчарта 4цв черн/красн/син/зел 2.5мм',
+        input_en: 'BRAUBERG flipchart markers 4col blk/red/blue/grn 2.5mm',
+        json: {
+          abbreviations: [
+            { abbr: "4цв", expansion: "4 цвета", frequency: 1 },
+            { abbr: "черн", expansion: "чёрный", frequency: 1 },
+            { abbr: "красн", expansion: "красный", frequency: 1 },
+            { abbr: "син", expansion: "синий", frequency: 1 },
+            { abbr: "зел", expansion: "зелёный", frequency: 1 }
+          ],
+          brands: [{ brand: "BRAUBERG", frequency: 1 }],
+          materials: [],
+          forms: [{ form: "маркер", frequency: 1 }],
+          colors: [
+            { color: "чёрный", frequency: 1 },
+            { color: "красный", frequency: 1 },
+            { color: "синий", frequency: 1 },
+            { color: "зелёный", frequency: 1 }
+          ],
+          technical_patterns: ["2.5мм"],
+          semantic_name: "маркеры BRAUBERG флипчарт 4 цвета 2.5мм"
+        },
+        card: {
+          title: "BRAUBERG Маркеры для флипчарта, 4 цвета",
+          title_en: "BRAUBERG Flipchart Markers, 4 Colors",
+          category: "Канцелярия",
+          category_en: "Office",
+          specs: [
+            { icon: "🏷️", label: "Бренд", label_en: "Brand", value: "BRAUBERG", value_en: "BRAUBERG" },
+            { icon: "🎨", label: "Цвета", label_en: "Colors", value: "Чёрн / Красн / Син / Зел", value_en: "Blk / Red / Blue / Grn" },
+            { icon: "✏️", label: "Толщина", label_en: "Tip", value: "2.5 мм", value_en: "2.5 mm" },
+            { icon: "📋", label: "Тип", label_en: "Type", value: "Для флипчарта", value_en: "Flipchart" }
+          ]
+        }
+      },
+      electronics: {
+        title: 'Electronics',
+        input: 'Наушники TWS BT5.3 ANC 32ч IPX5 сенсор USB-C',
+        input_en: 'Earbuds TWS BT5.3 ANC 32h IPX5 touch USB-C',
+        json: {
+          abbreviations: [
+            { abbr: "TWS", expansion: "True Wireless Stereo", frequency: 1 },
+            { abbr: "BT5.3", expansion: "Bluetooth 5.3", frequency: 1 },
+            { abbr: "ANC", expansion: "Active Noise Cancellation", frequency: 1 },
+            { abbr: "32ч", expansion: "32 часа", frequency: 1 },
+            { abbr: "IPX5", expansion: "защита от воды", frequency: 1 }
+          ],
+          brands: [],
+          materials: [],
+          forms: [{ form: "наушники", frequency: 1 }],
+          colors: [],
+          technical_patterns: ["BT5.3", "32ч", "IPX5", "USB-C"],
+          features: ["ANC", "сенсорное управление", "USB-C зарядка"],
+          semantic_name: "наушники TWS Bluetooth 5.3 ANC 32ч IPX5"
+        },
+        card: {
+          title: "TWS Наушники с ANC, Bluetooth 5.3",
+          title_en: "TWS Earbuds with ANC, Bluetooth 5.3",
+          category: "Электроника",
+          category_en: "Electronics",
+          specs: [
+            { icon: "📶", label: "Связь", label_en: "Connect", value: "Bluetooth 5.3", value_en: "Bluetooth 5.3" },
+            { icon: "🔇", label: "Шумоподавление", label_en: "ANC", value: "Активное (ANC)", value_en: "Active (ANC)" },
+            { icon: "🔋", label: "Батарея", label_en: "Battery", value: "32 часа", value_en: "32 hours" },
+            { icon: "💧", label: "Защита", label_en: "Protection", value: "IPX5", value_en: "IPX5" }
+          ]
+        }
+      }
+    };
+
+    let currentNiche = 'household';
+    let isGenerating = false;
+
+    function selectNiche(e, key) {
+      if (isGenerating) return;
+      
+      currentNiche = key;
+      document.querySelectorAll('.niche').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      
+      // Use localized input based on current language
+      const n = NICHES[key];
+      document.getElementById('input').value = currentLang === 'ru' ? n.input : (n.input_en || n.input);
+      clearResults();
+      
+      // Track niche selection
+      Analytics.demoInteraction('niche_select', { niche: key });
+    }
+
+    function clearResults() {
+      const attrsPlaceholder = currentLang === 'ru' ? 'JSON-ответ появится здесь' : 'JSON response will appear here';
+      const previewPlaceholder = currentLang === 'ru' ? 'Карточка товара появится здесь' : 'Product card will appear here';
+      document.getElementById('attrs').innerHTML = `<div class="attrs-placeholder">${attrsPlaceholder}</div>`;
+      document.getElementById('preview').innerHTML = `<div class="preview-placeholder">${previewPlaceholder}</div>`;
+    }
+
+    function generate() {
+      if (isGenerating) return;
+      isGenerating = true;
+      
+      const btn = document.querySelector('.demo-grid .btn');
+      btn.classList.add('loading');
+      
+      // Track generate click
+      Analytics.demoInteraction('generate_click', { niche: currentNiche });
+      
+      const n = NICHES[currentNiche];
+      const a = document.getElementById('attrs');
+      const p = document.getElementById('preview');
+      
+      // Clear placeholders
+      a.innerHTML = '';
+      p.innerHTML = '';
+      
+      // Format JSON with syntax highlighting
+      const jsonStr = JSON.stringify(n.json, null, 2);
+      
+      // Show JSON with typing effect
+      setTimeout(() => {
+        a.innerHTML = `<pre class="json-output"><code>${syntaxHighlight(jsonStr)}</code></pre>`;
+      }, 300);
+      
+      // Show product card after JSON
+      setTimeout(() => {
+        const card = n.card;
+        const isRu = currentLang === 'ru';
+        const title = isRu ? card.title : card.title_en;
+        const category = isRu ? card.category : card.category_en;
+        
+        let specsHtml = card.specs.map(s => {
+          const label = isRu ? s.label : s.label_en;
+          const value = isRu ? s.value : s.value_en;
+          return `<div class="spec-row"><span class="spec-icon">${s.icon}</span><span class="spec-label">${label}</span><span class="spec-value">${value}</span></div>`;
+        }).join('');
+        
+        p.innerHTML = `
+          <div class="product-card-preview">
+            <div class="card-category">${category}</div>
+            <h4 class="card-title">${title}</h4>
+            <div class="card-specs">${specsHtml}</div>
+            <div class="card-badge">✓ ${isRu ? 'Готово к публикации' : 'Ready to publish'}</div>
+          </div>
+        `;
+        
+        btn.classList.remove('loading');
+        isGenerating = false;
+        
+        // Track demo completion
+        Analytics.demoInteraction('generate_complete', { niche: currentNiche });
+      }, 800);
+    }
+    
+    // JSON syntax highlighting
+    function syntaxHighlight(json) {
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        let cls = 'json-number';
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = 'json-key';
+          } else {
+            cls = 'json-string';
+          }
+        } else if (/true|false/.test(match)) {
+          cls = 'json-boolean';
+        } else if (/null/.test(match)) {
+          cls = 'json-null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+      });
+    }
+
+    // =============================================
+    // PRICING FORM HANDLING
+    // =============================================
+    function handlePricingForm(e, plan) {
+      e.preventDefault();
+      const form = e.target;
+      const emailInput = form.querySelector('input[type="email"]');
+      const email = emailInput.value;
+      const btn = form.querySelector('button');
+      
+      if (email) {
+        // Track pricing form submission
+        Analytics.track('pricing_signup', { plan: plan, email_domain: email.split('@')[1] || 'unknown' });
+        
+        // Show success state
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✓ Request Sent!';
+        btn.style.background = 'var(--success)';
+        btn.disabled = true;
+        
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.background = '';
+          btn.disabled = false;
+          emailInput.value = '';
+        }, 3000);
+      }
+    }
+
+    // =============================================
+    // FORM HANDLING
+    // =============================================
+    function handleFormSubmit(e, formId) {
+      e.preventDefault();
+      const emailInput = e.target.querySelector('input[type="email"]');
+      const email = emailInput.value;
+      
+      if (email) {
+        // Track form submission
+        Analytics.formSubmit(formId, email);
+        
+        // Show success message (in production, this would send to backend)
+        const btn = e.target.querySelector('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✓ Success! Check your email';
+        btn.style.background = 'var(--success)';
+        
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.background = '';
+          emailInput.value = '';
+        }, 3000);
+      }
+    }
+
+    // =============================================
+    // UTILITY FUNCTIONS
+    // =============================================
+    function scrollToElement(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        Analytics.ctaClick('scroll_to', id);
+      }
+    }
+    
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const navLinks = document.getElementById('navLinks');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const isOpen = navLinks.style.display === 'flex';
+      
+      if (isOpen) {
+        navLinks.style.display = 'none';
+        mobileMenu.classList.remove('open');
+      } else {
+        navLinks.style.display = 'flex';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '70px';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = 'var(--bg-secondary)';
+        navLinks.style.padding = '20px';
+        navLinks.style.borderTop = '1px solid var(--card-border)';
+        mobileMenu.classList.add('open');
+      }
+    }
+
+    // =============================================
+    // CLICK TRACKING FOR DATA-TRACK ELEMENTS
+    // =============================================
+    document.addEventListener('click', (e) => {
+      const trackElement = e.target.closest('[data-track]');
+      if (trackElement) {
+        const trackName = trackElement.getAttribute('data-track');
+        Analytics.ctaClick(trackName, trackElement.closest('section')?.id || 'navbar');
+      }
+    });
+
+    // =============================================
+    // INITIALIZATION
+    // =============================================
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize scroll tracking
+      scrollTracking.init();
+      
+      // Observe all sections for visibility
+      document.querySelectorAll('section[id]').forEach(section => {
+        sectionObserver.observe(section);
+      });
+      
+      // Initialize demo
+      const initNiche = NICHES['household'];
+      document.getElementById('input').value = currentLang === 'ru' ? initNiche.input : (initNiche.input_en || initNiche.input);
+      clearResults();
+      
+      // Form submissions
+      document.getElementById('heroForm')?.addEventListener('submit', (e) => handleFormSubmit(e, 'hero_form'));
+      document.getElementById('ctaForm')?.addEventListener('submit', (e) => handleFormSubmit(e, 'cta_form'));
+      
+      // Track form focus (form start)
+      document.querySelectorAll('input[type="email"]').forEach(input => {
+        input.addEventListener('focus', function() {
+          const formId = this.closest('form')?.id || 'unknown';
+          Analytics.formStart(formId);
+        }, { once: true });
+      });
+      
+      // Pricing card hover tracking
+      document.querySelectorAll('.pricing-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          const plan = card.querySelector('h3')?.textContent || 'unknown';
+          Analytics.pricingView(plan);
+        }, { once: true });
+      });
+      
+      // Trigger initial animations for hero
+      setTimeout(() => {
+        document.querySelectorAll('.hero [data-aos]').forEach(el => {
+          el.classList.add('aos-animate');
+        });
+      }, 100);
+      
+      // Track page load
+      Analytics.pageView(document.title);
+      
+      // Initialize language
+      setLanguage(currentLang);
+    });
+
+    // Track before page unload
+    window.addEventListener('beforeunload', () => {
+      const totalTime = Math.floor((Date.now() - pageStartTime) / 1000);
+      Analytics.timeOnPage(totalTime);
+    });
+  </script>
+
+</body>
 </html>
