@@ -2619,6 +2619,12 @@
         console.log('✅ Generate button click sent to Telegram');
       });
       
+      // Send goal to Yandex Metrika
+      if (typeof ym !== 'undefined') {
+        ym(106259401, 'reachGoal', 'generate_click', { niche: currentNiche });
+        console.log('📊 Yandex Metrika goal: generate_click', { niche: currentNiche });
+      }
+      
       // Track generate click
       Analytics.demoInteraction('generate_click', { niche: currentNiche });
       
@@ -2739,6 +2745,12 @@
         // Send to Telegram
         sendToTelegram(email, 'pricing_form', plan);
         
+        // Send goal to Yandex Metrika
+        if (typeof ym !== 'undefined') {
+          ym(106259401, 'reachGoal', 'pricing_form_submit', { plan: plan });
+          console.log('📊 Yandex Metrika goal: pricing_form_submit', { plan: plan });
+        }
+        
         // Track pricing form submission
         Analytics.track('pricing_signup', { plan: plan, email_domain: email.split('@')[1] || 'unknown' });
         
@@ -2768,6 +2780,12 @@
       if (email) {
         // Send to Telegram
         sendToTelegram(email, formId);
+        
+        // Send goal to Yandex Metrika
+        if (typeof ym !== 'undefined') {
+          ym(106259401, 'reachGoal', 'form_submit', { form: formId });
+          console.log('📊 Yandex Metrika goal: form_submit', { form: formId });
+        }
         
         // Track form submission
         Analytics.formSubmit(formId, email);
