@@ -305,7 +305,16 @@
       font-size: 1.5rem;
       font-weight: 800;
     }
-    .logo-icon { font-size: 1.75rem; }
+    .logo-icon { 
+      font-size: 1.75rem; 
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-icon svg {
+      display: block;
+      vertical-align: middle;
+    }
     .logo-ai { color: var(--accent); }
     .nav-links {
       display: flex;
@@ -496,6 +505,14 @@
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+    .stat strong .counter {
+      font-size: inherit;
+      font-weight: inherit;
+      background: inherit;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .stat span { font-size: 0.875rem; color: var(--text-muted); }
     .stat-divider {
@@ -860,17 +877,32 @@
       display: flex;
       align-items: center;
       gap: 48px;
-      overflow-x: auto;
-      overflow-y: hidden;
+      overflow: hidden;
       padding: 20px 0;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE/Edge */
+      position: relative;
+      width: 100%;
     }
-    .company-logos::-webkit-scrollbar {
-      display: none; /* Chrome/Safari */
+    
+    .company-logos-track {
+      display: flex;
+      gap: 48px;
+      animation: scroll-logos 30s linear infinite;
+      will-change: transform;
     }
+    
+    .company-logos:hover .company-logos-track {
+      animation-play-state: paused;
+    }
+    
+    @keyframes scroll-logos {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+    
     .company-logo {
       color: var(--text-muted);
       opacity: 0.6;
@@ -1245,17 +1277,17 @@
 
       <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
         <div class="stat">
-          <strong>10M+</strong>
+          <strong><span class="counter" data-target="10" data-suffix="M+">0</span></strong>
           <span data-i18n="hero.stat1">Cards Generated</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <strong>95%</strong>
+          <strong><span class="counter" data-target="95" data-suffix="%">0</span></strong>
           <span data-i18n="hero.stat2">Time Saved</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <strong>4.9/5</strong>
+          <strong><span class="counter" data-target="4.9" data-suffix="/5" data-decimals="1">0</span></strong>
           <span data-i18n="hero.stat3">User Rating</span>
         </div>
       </div>
@@ -2802,6 +2834,74 @@
     // =============================================
     // INITIALIZATION
     // =============================================
+    // =============================================
+    // COUNTER ANIMATION
+    // =============================================
+    function animateCounter(element) {
+      const target = parseFloat(element.dataset.target);
+      const suffix = element.dataset.suffix || '';
+      const decimals = parseInt(element.dataset.decimals) || 0;
+      const duration = 2000; // 2 seconds
+      const steps = 60;
+      const increment = target / steps;
+      const stepDuration = duration / steps;
+      let current = 0;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        element.textContent = current.toFixed(decimals) + suffix;
+      }, stepDuration);
+    }
+    
+    function initCounters() {
+      const counters = document.querySelectorAll('.counter');
+      
+      // Create Intersection Observer for triggering animation when visible
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+            entry.target.classList.add('animated');
+            animateCounter(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      counters.forEach(counter => observer.observe(counter));
+    }
+
+    // =============================================
+    // COMPANY LOGOS INFINITE SCROLL
+    // =============================================
+    function initCompanyLogosScroll() {
+      const logosContainer = document.getElementById('companyLogos');
+      if (!logosContainer) return;
+      
+      // Get all visible logos (based on current language)
+      const logos = Array.from(logosContainer.children);
+      
+      // Create a track container
+      const track = document.createElement('div');
+      track.className = 'company-logos-track';
+      
+      // Clone logos and append to track (original + duplicate for seamless loop)
+      logos.forEach(logo => {
+        track.appendChild(logo.cloneNode(true));
+      });
+      
+      // Duplicate again for seamless infinite scroll
+      logos.forEach(logo => {
+        track.appendChild(logo.cloneNode(true));
+      });
+      
+      // Clear container and add track
+      logosContainer.innerHTML = '';
+      logosContainer.appendChild(track);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       // Initialize scroll tracking
       scrollTracking.init();
@@ -2815,6 +2915,46 @@
       const initNiche = NICHES['household'];
       document.getElementById('input').value = currentLang === 'ru' ? initNiche.input : (initNiche.input_en || initNiche.input);
       clearResults();
+      
+      // Initialize infinite scroll for company logos
+      initCompanyLogosScroll();
+      
+      // Initialize counter animations
+      initCounters();
+      
+      // Auto-trigger generate on scroll to demo section
+      const demoSection = document.getElementById('demo');
+      if (demoSection) {
+        let autoGenerated = false;
+        
+        const triggerAutoGenerate = () => {
+          if (autoGenerated) return;
+          autoGenerated = true;
+          console.log('🎯 Demo section visible, auto-generating...');
+          
+          setTimeout(() => {
+            const generateBtn = document.querySelector('[data-track="demo_generate"]');
+            if (generateBtn) {
+              generateBtn.click();
+              console.log('✅ Auto-generate triggered via button click');
+            } else {
+              console.error('❌ Generate button not found');
+            }
+          }, 800);
+        };
+        
+        const demoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            console.log('👁️ Demo section intersection:', entry.isIntersecting, 'ratio:', entry.intersectionRatio.toFixed(2));
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.10) {
+              console.log('✨ Threshold reached! Triggering auto-generate...');
+              triggerAutoGenerate();
+            }
+          });
+        }, { threshold: [0, 0.1, 0.15, 0.2, 0.3, 0.5] });
+        
+        demoObserver.observe(demoSection);
+      }
       
       // Form submissions
       document.getElementById('heroForm')?.addEventListener('submit', (e) => handleFormSubmit(e, 'hero_form'));
